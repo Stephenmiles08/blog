@@ -26,7 +26,8 @@ exports.createPost = async (req, res) => {
             throw new Exception('Post upload failed.', 400)
         successResponse(res, {
             title: uploadPost.title,
-            content: uploadPost.content
+            content: uploadPost.content,
+            postId: uploadPost.id,
         }, 200)
     } catch (error) {
         switch (error.parent.code) {
@@ -39,4 +40,19 @@ exports.createPost = async (req, res) => {
         }
         requestFailed(res, error.message, error.status || 500);
     }
+}
+
+exports.updatePost = async(req,res)=>{
+    const {id} = req.params;
+    const {title,content,category,keyword} = req.body;
+   try {
+    const updatePost = await models.posts.update({
+        title,content,category,keyword,
+    },{where:{id}});
+    if (updatePost[0] !== 1)
+            throw new Exception('Unable to Update Post.',400);
+    successResponse(res,{success:true},200);
+   } catch (error) {
+        requestFailed(res,error.message,error.status || 500);
+   }
 }

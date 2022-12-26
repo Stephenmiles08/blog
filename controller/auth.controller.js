@@ -36,9 +36,9 @@ exports.signUp = async (req, res) => {
             username
         })
         if (registerUser.id === null) throw new Exception(`An error occurred while registering this user ${username}`, 500);
-        const userId = registerUser.id
+        const user = {id:registerUser.id,username:registerUser.username}
         const token = jwt.sign({
-                userId
+                ...user
             },
             process.env.Authorization_secret, {
                 expiresIn: '1h',
@@ -49,13 +49,6 @@ exports.signUp = async (req, res) => {
             token
         }, 200)
     } catch (error) {
-         switch (error.parent.code) {
-             case '23502':
-                 error.message = 'not all fields where inputted.';
-                 break;
-             default:
-                 break;
-         }
         return requestFailed(res, error.message || error, error.status || 500);
     }
 }

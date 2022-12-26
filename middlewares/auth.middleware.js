@@ -33,8 +33,7 @@ exports.validatePost = async(req,res,next)=>{
     const decryptedToken = JSON.parse(Buffer.from(authorizationToken.split('.')[1], 'base64').toString())
     const {userId,username} = req.body;
     try {
-        const getUser = await model.users.findOne({where:{username}})
-        if (decryptedToken.userId !== userId || !getUser)
+        if (userId !== decryptedToken.id || username !== decryptedToken.username)
                 throw new Exception('Unauthorized!',403);
         next()
 
