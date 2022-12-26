@@ -26,6 +26,9 @@ exports.validateToken = async (req, res, next) => {
             return requestFailed(res, error, 500)
         }
     }
+    else{
+        requestFailed(res,'Authorization token required!',500)
+    }
 }
 
 exports.validatePost = async(req,res,next)=>{

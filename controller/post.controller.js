@@ -43,7 +43,7 @@ exports.createPost = async (req, res) => {
 }
 
 exports.updatePost = async(req,res)=>{
-    const {id} = req.params;
+    const {postId} = req.params;
     const {title,content,category,keyword} = req.body;
    try {
     const updatePost = await models.posts.update({
@@ -55,4 +55,20 @@ exports.updatePost = async(req,res)=>{
    } catch (error) {
         requestFailed(res,error.message,error.status || 500);
    }
+}
+
+exports.deletePost = async(req,res)=>{
+    const {postId} = req.params;
+    const {userId} = req.body;
+    try {
+        const postOwner = await models.posts.findOne({where:{userId,id:postId}})
+        if (!postOwner)
+                throw new Exception('Unauthorized request!',403)
+        const deleteFunction = await models.posts.destroy({where:{id:postOwner.id}});
+        if (deleteFunction !== 1)
+                throw new Exception('Unable to delete post',500)
+        successResponse(res,{success:true},200)
+    } catch (error) {
+        requestFailed(res,error.message,error.status||500)
+    }
 }
