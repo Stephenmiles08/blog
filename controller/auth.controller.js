@@ -16,7 +16,9 @@ exports.root = (req, res) => {
         'and': req.body
     }, 200)
 }
-
+exports.root = (req,res)=>{
+    res.json({'info':"welcome to my api"})
+}
 exports.signUp = async (req, res) => {
     const {
         email,
