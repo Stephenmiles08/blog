@@ -43,5 +43,18 @@ exports.validatePost = async(req,res,next)=>{
     } catch (error) {
         requestFailed(res,error.message||error,error.status||500);
     }
+}
 
+exports.validateLike = async(req,res,next)=>{
+     const authorizationToken = req.headers.authorization;
+     const decryptedToken = JSON.parse(Buffer.from(authorizationToken.split('.')[1], 'base64').toString())
+     const {userId,} = req.body;
+     try {
+         if (userId !== decryptedToken.id)
+             throw new Exception('Unauthorized!', 403);
+         next()
+
+     } catch (error) {
+         requestFailed(res, error.message || error, error.status || 500);
+     }
 }

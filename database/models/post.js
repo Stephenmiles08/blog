@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       keyword: DataTypes.STRING,
       category: DataTypes.STRING,
       userAuthor: DataTypes.STRING,
-      userId: DataTypes.INTEGER
+      userId: DataTypes.INTEGER,
+      likeCount: DataTypes.INTEGER,
     }, {});
 
   Post.associate = function (models) {
