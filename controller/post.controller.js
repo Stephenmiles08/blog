@@ -92,10 +92,7 @@ exports.deletePost = async(req,res)=>{
     const {postId} = req.params;
     const {userId} = req.body;
     try {
-        const postOwner = await models.posts.findOne({where:{userId,id:postId}})
-        if (!postOwner)
-                throw new Exception('Unauthorized request!',403)
-        const deleteFunction = await models.posts.destroy({where:{id:postOwner.id}});
+        const deleteFunction = await models.posts.destroy({where:{id:postId,userId}});
         if (deleteFunction !== 1)
                 throw new Exception('Unable to delete post',500)
         successResponse(res,{success:true},200)

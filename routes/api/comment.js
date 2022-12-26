@@ -7,4 +7,5 @@ module.exports = (app)=>{
     app.get('/api/comments', validateToken,commentControl.getAllComments);
     app.get('/api/comments/:commentId',validateToken,commentControl.getComment);
     app.put('/api/comments/:commentId',validateToken,validatePost,commentControl.EditComment);
+    app.delete('/api/comments/:commentId',validateToken,commentControl.deleteComment)
 }

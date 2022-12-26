@@ -77,3 +77,23 @@ exports.getComment = async (req,res)=>{
         requestFailed(res, error.message, error.status || 500)
     }
 }
+
+exports.deleteComment = async(req,res)=>{
+    const {commentId} = req.params;
+    const {userId} = req.body;
+    try {
+        const deleteFunction = await models.comments.destroy({
+            where: {
+                id: commentId,
+                userId
+            }
+        });
+        if (deleteFunction !== 1)
+            throw new Exception('Unable to delete post', 500)
+        successResponse(res, {
+            success: true
+        }, 200)
+    } catch (error) {
+        requestFailed(res, error.message, error.status || 500)
+    }
+}
