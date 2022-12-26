@@ -18,6 +18,8 @@ exports.CreateComment= async(req,res)=>{
 
 }
 
+exports
+
 exports.getAllComments = async(req,res)=>{
     try {
         let searchArr = ['userId', 'comment']
@@ -35,4 +37,23 @@ exports.getAllComments = async(req,res)=>{
     }
 }
 
-exports.
+exports.getComment = async (req,res)=>{
+    const {commentId}= req.params;
+
+    try {
+        const getComment = await models.comments.findOne({
+            where: {
+                id: commentId
+            }
+        })
+        if (!getComment)
+            throw new Exception('Post not found', 404)
+        successResponse(res, {
+            Comment: getComment.comment,
+            postId: getComment.postId,
+            userId: getComment.userId
+        }, 200)
+    } catch (error) {
+        requestFailed(res, error.message, error.status || 500)
+    }
+}
