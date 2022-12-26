@@ -17,3 +17,22 @@ exports.CreateComment= async(req,res)=>{
     }
 
 }
+
+exports.getAllComments = async(req,res)=>{
+    try {
+        let searchArr = ['userId', 'comment']
+        const getComments = await models.comments.findAll({});
+        if (!getComments)
+                throw new Exception('No comments.')
+        let found = getComments.map((value, index) =>
+        {
+           delete value.dataValues.id, delete value.dataValues.createdAt, delete value.dataValues.updatedAt
+            return value.dataValues
+        });
+        successResponse(res,found,200)
+    } catch (error) {
+        requestFailed(res,error.message,error.status||500)
+    }
+}
+
+exports.
