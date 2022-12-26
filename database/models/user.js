@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     return await bcrypt.compareSync(password, this.password);
   }
   User.associate = function (models) {
-    User.hasMany(models.Post, {
+    User.hasMany(models.posts, {
       foreignKey: 'userId',
       as: 'posts',
       onDelete: 'CASCADE'

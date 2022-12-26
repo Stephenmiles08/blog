@@ -49,6 +49,13 @@ exports.signUp = async (req, res) => {
             token
         }, 200)
     } catch (error) {
+         switch (error.parent.code) {
+             case '23502':
+                 error.message = 'not all fields where inputted.';
+                 break;
+             default:
+                 break;
+         }
         return requestFailed(res, error.message || error, error.status || 500);
     }
 }

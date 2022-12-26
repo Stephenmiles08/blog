@@ -5,9 +5,12 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define(
-    'Post', {
+    'posts', {
       title: DataTypes.STRING,
       content: DataTypes.TEXT,
+      keyword: DataTypes.STRING,
+      category: DataTypes.STRING,
+      userAuthor: DataTypes.STRING,
       userId: DataTypes.INTEGER
     }, {});
 

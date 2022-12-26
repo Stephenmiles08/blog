@@ -5,7 +5,7 @@ const {
     requestFailed,
     Exception
 } = require('../lib/codebits');
-
+const model = require('../database/models');
 
 exports.validateToken = async (req, res, next) => {
     const authorizationToken = req.headers.authorization;
@@ -20,11 +20,26 @@ exports.validateToken = async (req, res, next) => {
 
         try {
             result = jwt.verify(token, secret, option);
-            console.log(result);
             req.user = result;
             next()
         } catch (error) {
             return requestFailed(res, error, 500)
         }
     }
+}
+
+exports.validatePost = async(req,res,next)=>{
+    const authorizationToken = req.headers.authorization;
+    const decryptedToken = JSON.parse(Buffer.from(authorizationToken.split('.')[1], 'base64').toString())
+    const {userId,username} = req.body;
+    try {
+        const getUser = await model.users.findOne({where:{username}})
+        if (decryptedToken.userId !== userId || !getUser)
+                throw new Exception('Unauthorized!',403);
+        next()
+
+    } catch (error) {
+        requestFailed(res,error.message||error,error.status||500);
+    }
+
 }
