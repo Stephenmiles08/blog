@@ -34,13 +34,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     });
 
-    User.hasMany(models.Comment, {
+    User.hasMany(models.comments, {
       foreignKey: 'userId',
       as: 'comments',
       onDelete: 'CASCADE'
     })
 
-    User.hasMany(models.Like, {
+    User.hasMany(models.likes, {
       foreignKey: 'userId',
       as: 'like',
       onDelete: 'CASCADE'

@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const Like = sequelize.define(
-    'Like', {
+    'likes', {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER
     }, {});

@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
 
   Post.associate = function (models) {
-    Post.hasMany(models.Like, {
+    Post.hasMany(models.likes, {
       foreignKey: 'postId',
       as: 'likedPost',
       onDelete: 'CASCADE'
     });
 
-    Post.hasMany(models.Comment, {
+    Post.hasMany(models.comments, {
       foreignKey: 'postId',
       as: 'commentedOn',
       onDelete: 'CASCADE'

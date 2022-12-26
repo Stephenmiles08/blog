@@ -1,4 +1,3 @@
-// const router = require('express').Router();
 const {
     validateToken
 } = require('../../middlewares/auth.middleware');

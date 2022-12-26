@@ -1,4 +1,5 @@
 const models = require('../database/models');
+const {Operator} = require('sequelize')
 const {
     requestFailed,
     Exception,
@@ -56,6 +57,23 @@ exports.updatePost = async(req,res)=>{
         requestFailed(res,error.message,error.status || 500);
    }
 }
+
+// exports.advancedSearch = async(req,res)=>{
+//     const searchQuery = req.query;
+//     let adSearch = await models.posts.findAll({include:[
+//         {model:models.users,
+//     as:'author'}
+//     ]})
+//     let filtered = adSearch.filter(user=>{
+//         let isValid = true;
+//         for (key in searchQuery){
+//             console.log(user[key]);
+//             isValid = isValid && user[key] == searchQuery[key] || searchQuery[key] == '';
+//         }
+//         return isValid
+//     })
+//     console.log(filtered);
+// }
 
 exports.GetPost = async(req,res)=>{
     const {postId} = req.params;

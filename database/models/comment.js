@@ -4,7 +4,7 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define(
-    'Comment', {
+    'comments', {
       userId: DataTypes.INTEGER,
       postId: DataTypes.INTEGER,
       comment: DataTypes.TEXT
