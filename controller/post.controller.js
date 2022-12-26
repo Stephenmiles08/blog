@@ -57,6 +57,19 @@ exports.updatePost = async(req,res)=>{
    }
 }
 
+exports.GetPost = async(req,res)=>{
+    const {postId} = req.params;
+
+    try {
+        const getPost = await models.posts.findOne({where:{id:postId}})
+        if (!getPost)
+                throw new Exception('Post not found',404)
+        successResponse(res,{Title:getPost.title,Content:getPost.content},200)
+    } catch (error) {
+        requestFailed(res,error.message,error.status||500)
+    }
+}
+
 exports.deletePost = async(req,res)=>{
     const {postId} = req.params;
     const {userId} = req.body;
