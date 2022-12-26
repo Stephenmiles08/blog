@@ -66,7 +66,8 @@ exports.login = async (req, res) => {
                 break;
             case 3:
                 const token = jwt.sign({
-                        id: getAuth.response
+                        id: getAuth.response.id,
+                        username:getAuth.response.username
                     },
                     process.env.Authorization_secret, {
                         expiresIn: '1h',
@@ -74,7 +75,7 @@ exports.login = async (req, res) => {
                     })
                 successResponse(res, {
                     'info': 'successfully logged in',
-                    'userId': getAuth.response,
+                    'user': getAuth.response,
                     token
                 }, 200);
                 break;

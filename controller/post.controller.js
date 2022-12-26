@@ -45,11 +45,11 @@ exports.createPost = async (req, res) => {
 
 exports.updatePost = async(req,res)=>{
     const {postId} = req.params;
-    const {title,content,category,keyword} = req.body;
+    const {title,content,category,keyword,userId} = req.body;
    try {
     const updatePost = await models.posts.update({
         title,content,category,keyword,
-    },{where:{id}});
+    },{where:{id:postId,userId}});
     if (updatePost[0] !== 1)
             throw new Exception('Unable to Update Post.',400);
     successResponse(res,{success:true},200);

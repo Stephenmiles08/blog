@@ -18,7 +18,27 @@ exports.CreateComment= async(req,res)=>{
 
 }
 
-exports
+exports.EditComment = async(req,res)=>{
+    const {
+        commentId
+    } = req.params;
+    const {comment,userId} = req.body;
+    try {
+        const updateComment = await models.comments.update({comment}, {
+            where: {
+                id:commentId,
+                userId
+            }
+        });
+        if (updateComment[0] !== 1)
+            throw new Exception('Unable to Update Comment.', 400);
+        successResponse(res, {
+            success: true
+        }, 200);
+    } catch (error) {
+        requestFailed(res, error.message, error.status || 500);
+    }
+}
 
 exports.getAllComments = async(req,res)=>{
     try {
@@ -47,7 +67,7 @@ exports.getComment = async (req,res)=>{
             }
         })
         if (!getComment)
-            throw new Exception('Post not found', 404)
+            throw new Exception('Comment not found', 404)
         successResponse(res, {
             Comment: getComment.comment,
             postId: getComment.postId,
