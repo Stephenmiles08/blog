@@ -9,7 +9,7 @@ module.exports = {
       dialect: "postgres"
   },
    production : {
-    url: process.env.DATABASE_URL,
+    url: 'postgres://hackensten:4ppywHzJ6Y6mam8rGPgZIfo9lZMYlCwg@dpg-cel14dta4991ihikjleg-a.oregon-postgres.render.com/api_dev_quq5',
     dialectOptions:{
       ssl:{
         rejectUnauthorized: false
