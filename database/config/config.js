@@ -1,7 +1,7 @@
 require('dotenv').config()
 module.exports = {
    development : {
-      url: 'postgres://hackensten:mobile99@localhost:5432/api_dev',
+      url: process.env.devDatabase,
       dialect: "postgres",
   },
    test : {
@@ -9,7 +9,7 @@ module.exports = {
       dialect: "postgres"
   },
    production : {
-    url: 'postgres://hackensten:4ppywHzJ6Y6mam8rGPgZIfo9lZMYlCwg@dpg-cel14dta4991ihikjleg-a.oregon-postgres.render.com/api_dev_quq5',
+    url: process.env.DATABASE_URL,
     dialectOptions:{
       ssl:{
         rejectUnauthorized: false
