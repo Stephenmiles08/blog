@@ -51,6 +51,7 @@ exports.signUp = async (req, res) => {
             token
         }, 200)
     } catch (error) {
+        console.log(error);
         return requestFailed(res, error.message || error, error.status || 500);
     }
 }

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       userAuthor: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       likeCount: DataTypes.INTEGER,
+      commentCount: DataTypes.INTEGER
     }, {});
 
   Post.associate = function (models) {

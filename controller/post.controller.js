@@ -1,5 +1,5 @@
 const models = require('../database/models');
-const {Operator} = require('sequelize')
+const {Op} = require('sequelize')
 const {
     requestFailed,
     Exception,
@@ -58,22 +58,46 @@ exports.updatePost = async(req,res)=>{
    }
 }
 
-// exports.advancedSearch = async(req,res)=>{
-//     const searchQuery = req.query;
-//     let adSearch = await models.posts.findAll({include:[
-//         {model:models.users,
-//     as:'author'}
-//     ]})
-//     let filtered = adSearch.filter(user=>{
-//         let isValid = true;
-//         for (key in searchQuery){
-//             console.log(user[key]);
-//             isValid = isValid && user[key] == searchQuery[key] || searchQuery[key] == '';
-//         }
-//         return isValid
-//     })
-//     console.log(filtered);
-// }
+exports.advancedSearch = async(req,res)=>{
+    const searchQuery = req.query;
+    if (searchQuery){
+        try {
+            const adSearch = await models.posts.findAll({
+                where:{
+                    [Op.or]:{
+                        keyword:{
+                            [Op.like]:`%${searchQuery.keyword}%`
+                        },
+                        category:{
+                            [Op.like]:`%${searchQuery.category}%`
+                        },
+                        content:{
+                            [Op.like]:`%${searchQuery.s}%`
+                        },
+                        userId:{
+                            [Op.eq]:searchQuery.userId
+                        }
+                    }
+                },
+                order:[
+                    ['likeCount','DESC'],
+                    ['commentCount','DESC'],
+                    ['updatedAt','DESC']
+                ]
+            })
+            if (!adSearch)
+                    throw new Exception('Search not found.',404);
+            const newPost = adSearch.map((value,index)=>{
+                delete value.dataValues.id, delete value.dataValues.createdAt, delete value.dataValues.updatedAt,
+                delete value.dataValues.likeCount, delete value.dataValues.commentCount
+                return value.dataValues
+            })
+            successResponse(res,newPost,200)
+        } catch (error) {
+            requestFailed(res,error.message,error.status||500)
+        }
+    }
+}
 
 exports.GetPost = async(req,res)=>{
     const {postId} = req.params;
