@@ -11,7 +11,8 @@ exports.like = async(req,res)=>{
         if (uploadLike[1] === false)
                 throw new Exception(`user with id: ${userId} Can not like`,400) 
         const likePost = await models.posts.findOne({where:{id:postId}});
-        
+        if (!likePost)
+            throw new Exception('Unable to access Post',400)
         await likePost.increment('likeCount',{by:1});
         successResponse(res,{success:true},200);
     } catch (error) {
@@ -27,7 +28,8 @@ exports.unlike = async(req,res)=>{
         if (deletedLike !== 1)
             throw new Exception('Unable to delete')
         const unLikePost = await models.posts.findOne({where:{id:postId}});
-        console.log(unLikePost);
+        if (!unLikePost)
+            throw new Exception('Unable to access Post', 400)
         if (unLikePost.likeCount >1)
         await unLikePost.decrement('likeCount',{by:1});
         successResponse(res,{success:true},200);
