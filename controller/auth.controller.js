@@ -51,7 +51,6 @@ exports.signUp = async (req, res) => {
             token
         }, 200)
     } catch (error) {
-        console.log(error);
         return requestFailed(res, error.message || error, error.status || 500);
     }
 }
@@ -92,18 +91,17 @@ exports.login = async (req, res) => {
 }
 
 exports.getUser = async (req, res) => {
-    const {
-        id
-    } = req.params;
+    const {userId} = req.params;
     try {
-        const existingUser = await models.users.findByPk(id);
-        if (!existingUser) throw new requestFailed('User does not exist', 404)
+        const existingUser = await models.users.findByPk(userId);
+        if (!existingUser) throw new Exception('User does not exist', 404)
         const payload = {
             email: existingUser.email,
             username: existingUser.username
         }
         successResponse(res, payload, 200)
     } catch (error) {
+        console.log(error);
         requestFailed(res, error.message || error, error.status || 500)
     }
 }

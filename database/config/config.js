@@ -1,7 +1,7 @@
 require('dotenv').config()
 module.exports = {
    development : {
-      url: 'postgres://hackensten:mobile99@localhost:5432/api_dev',
+      url: process.env.devDatabase,
       dialect: "postgres",
   },
    test : {

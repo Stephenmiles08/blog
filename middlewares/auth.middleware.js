@@ -48,9 +48,10 @@ exports.validatePost = async(req,res,next)=>{
 exports.validateLike = async(req,res,next)=>{
      const authorizationToken = req.headers.authorization;
      const decryptedToken = JSON.parse(Buffer.from(authorizationToken.split('.')[1], 'base64').toString())
-     const {userId,} = req.body;
+     const userId = req.params.userId || req.body.userId;
      try {
-         if (userId !== decryptedToken.id)
+        console.log(req.body);
+         if (decryptedToken.id !== parseInt(userId))
              throw new Exception('Unauthorized!', 403);
          next()
 
