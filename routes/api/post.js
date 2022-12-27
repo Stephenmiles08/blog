@@ -1,12 +1,14 @@
+const router = require('../index');
 const {
     validateToken,validatePost
 } = require('../../middlewares/auth.middleware');
 const postController = require('../../controller/post.controller');
 
-module.exports = (app) => {
-    app.post('/api/posts', validateToken, validatePost, postController.createPost);
-    app.put('/api/posts/:postId',validateToken,validatePost,postController.updatePost);
-    app.get('/api/posts',validateToken,postController.advancedSearch);
-    app.get('/api/posts/:postId',validateToken,postController.GetPost);
-    app.delete('/api/posts/:postId',validateToken,validatePost,postController.deletePost);
-}
+
+router.post('/posts', validateToken, validatePost, postController.createPost);
+router.put('/posts/:postId',validateToken,validatePost,postController.updatePost);
+router.get('/posts',validateToken,postController.advancedSearch);
+router.get('/posts/:postId',validateToken,postController.GetPost);
+router.delete('/posts/:postId',validateToken,validatePost,postController.deletePost);
+
+module.exports = router;
