@@ -13,7 +13,7 @@ exports.CreateComment= async(req,res)=>{
             throw new Exception('Post upload failed.', 400)
         let getPost = await models.posts.findOne({where:{id:postId}})
         if (!getPost)
-                throw new Exception('Unable to access Post.')
+                throw new Exception('Unable to access Post.',400)
         await getPost.increment('commentCount', {by:1});
         successResponse(res,{comment:createComment.comment,commentId:createComment.id,username},200)
     } catch (error) {
